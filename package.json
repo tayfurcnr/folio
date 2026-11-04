@@ -3,10 +3,17 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "workspaces": ["apps/editor", "packages/*"],
+  "workspaces": [
+    "apps/editor",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "npm run dev --workspace @folio/editor",
     "build": "npm run build --workspace @folio/editor",
-    "typecheck": "npm run typecheck --workspace @folio/editor"
+    "typecheck": "npm run typecheck --workspace @folio/editor && npm run typecheck --workspace @folio/engine-adapter",
+    "build:wasm": "node scripts/build-wasm.mjs",
+    "test:adapter": "npm run test --workspace @folio/engine-adapter",
+    "test:rust": "cargo test --manifest-path crates/folio-wasm/Cargo.toml",
+    "test": "npm run test:rust && npm run test:adapter"
   }
 }

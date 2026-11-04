@@ -3,7 +3,6 @@ dist/
 build/
 coverage/
 *.tsbuildinfo
-.DS_Store
 Thumbs.db
 .env
 .env.*
@@ -13,7 +12,5 @@ Thumbs.db
 .cache/
 playwright-report/
 test-results/
-dist/
-coverage/
-*.tsbuildinfo
 .agents
+apps/editor/public/wasm/

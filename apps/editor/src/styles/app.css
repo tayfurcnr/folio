@@ -419,10 +419,11 @@ button:disabled { cursor: not-allowed; }
   .statusbar__fit { display: inline-flex; }
 }
 @media (max-width: 440px) {
+  .avatar-group { display: none; }
   .topbar__menus .menu-trigger { width: 27px; min-width: 27px; }
   .topbar__menus .menu-wrap:nth-child(2) { display: block; }
   .topbar__icon-button { width: 32px; }
-  .topbar__share, .topbar__present { width: 32px; }
+  .topbar__right > .topbar__share, .topbar__right > .topbar__present { width: 32px; font-size: 0; }
   .topbar__history-button.ui-button { width: 27px; min-width: 27px; height: 28px; min-height: 28px; }
   .statusbar__slide-count { max-width: 82px; overflow: hidden; text-overflow: ellipsis; }
   .statusbar__filmstrip-toggle > span:not(.ui-button__icon) { display: none; }

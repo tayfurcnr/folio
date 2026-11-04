@@ -256,11 +256,23 @@ WASM derlemesini ve TypeScript adapter testlerini çalıştır.
 
 ## 12. Kabul kriterleri
 
-- [ ] Rust adapter yeni Folio altında çalışıyor.
-- [ ] DeckCraft sabit Cargo dependency ile kullanılıyor.
-- [ ] PoC'nin doğrulanmış temel işlevleri korunuyor.
-- [ ] TypeScript engine adapter çalışıyor.
-- [ ] React doğrudan WASM ayrıntılarına bağımlı değil.
+- [x] Rust adapter Folio altında çalışıyor; native ve wasm32 kontrolleri geçiyor.
+- [x] DeckCraft sabit Cargo dependency ve `krilla` patch ile kullanılıyor; `Cargo.lock` tutuluyor.
+- [x] Tek WASM erişim noktası olan typed TypeScript adapter eklendi.
+- [x] Session lifecycle, projections, pointer/key, render, undo/redo, PPTX ve batch API kapsandı.
+- [x] Rust errors yapılandırılmış code/message/retryable alanları ile aktarılıyor; adapter operation ID ekliyor.
+- [x] Native Rust testleri ve adapter testleri geçti.
+- [x] Üretim-dışı diagnostic PoC API'leri export edilmedi.
+- [x] Batch journal/recovery açığı ile üretim NO-GO riskleri belgelendi.
+
+## 13. Doğrulama ve sınırlar
+
+WP2 uygulama raporu ve komut kayıtları için [`WP2-IMPLEMENTATION.md`](WP2-IMPLEMENTATION.md) belgesine bakın.
+
+WP2, WP3 canvas bağlantısını veya üretim hazırlığını tamamlamaz. Authentic PowerPoint doğrulaması, gerçek işletim sistemi IME denemeleri, üretim font manifest'i ve temsilî bellek testleri release gate olarak açık kalır.
+- [x] PoC'nin doğrulanmış temel işlevleri korunuyor.
+- [x] TypeScript engine adapter çalışıyor.
+- [x] React doğrudan WASM ayrıntılarına bağımlı değil.
 - [ ] Tek belge otoritesi Rust Session.
 - [ ] Komutlar ve hatalar tip güvenli şekilde iletiliyor.
 - [ ] Render çıktısı alınabiliyor.

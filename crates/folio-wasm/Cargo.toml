@@ -1,0 +1,30 @@
+[package]
+name = "folio-wasm"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+resolver = "3"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+deckcraft-engine = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-engine" }
+deckcraft-model = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-model" }
+deckcraft-fonts = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-fonts" }
+deckcraft-render = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-render" }
+deckcraft-pptx = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-pptx" }
+serde_json = "1"
+serde = { version = "1", features = ["derive"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "=0.3.106"
+wasm-bindgen = "=0.2.129"
+serde-wasm-bindgen = "=0.6.5"
+
+# DeckCraft's workspace patch is not inherited by downstream Git dependencies. Keep its reviewed
+# PDF writer fork at the same revision so craft-pdf receives the API it targets.
+[patch.crates-io]
+krilla = { git = "https://github.com/storytold/craft-libs", rev = "c5a1cbfb5f9049f9270955caffb5bee5997aebf7", version = "=0.8.2" }
