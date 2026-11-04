@@ -1,0 +1,12 @@
+{
+  "name": "folio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": ["apps/editor", "packages/*"],
+  "scripts": {
+    "dev": "npm run dev --workspace @folio/editor",
+    "build": "npm run build --workspace @folio/editor",
+    "typecheck": "npm run typecheck --workspace @folio/editor"
+  }
+}

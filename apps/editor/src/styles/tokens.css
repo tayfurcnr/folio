@@ -1,0 +1,75 @@
+/* Folio semantic tokens migrated from atlas/apps/editor/src/ui/tokens.css. */
+:root {
+  --brand-navy: #1f2a37;
+  --brand-orange: #ff6f3c;
+  --brand-orange-strong: #a83f1c;
+  --warm-white: #faf8f4;
+  --surface-white: #ffffff;
+  --soft-peach: #fad9cc;
+  --mist-gray: #e9e7e2;
+  --secondary-text: #6f7682;
+  --sage-mist: #c8d7cc;
+  --lavender-mist: #d8d4ee;
+  --bg: var(--warm-white);
+  --panel-bg: var(--surface-white);
+  --surface-raised: var(--surface-white);
+  --border: var(--mist-gray);
+  --text: var(--brand-navy);
+  --text-muted: #68717b;
+  --accent: var(--brand-orange);
+  --accent-strong: var(--brand-orange-strong);
+  --accent-soft: #fce8df;
+  --focus-ring: #a83f1c;
+  --success: #347a61;
+  --warning: #9a681e;
+  --danger: #b33d36;
+  --info: #4a6f91;
+  --canvas-outside: #f4f5f7;
+  --ruler-bg: #f1f3f6;
+  --ruler-ink: #6b7488;
+  --topbar-h: 56px;
+  --rail-w: 88px;
+  --panel-w: 328px;
+  --filmstrip-h: 136px;
+  --statusbar-h: 48px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --shadow-panel: 0 8px 28px rgb(31 42 55 / 7%);
+  color-scheme: light;
+}
+
+:root[data-color-mode='dark'] {
+  --bg: #0d1015;
+  --panel-bg: #151920;
+  --surface-raised: #1d222a;
+  --border: #2a3039;
+  --text: #f0f2f5;
+  --text-muted: #9ba3af;
+  --accent-strong: #ff7b45;
+  --accent-soft: #332118;
+  --focus-ring: #ff9868;
+  --success: #6bc79e;
+  --warning: #e9b866;
+  --danger: #f07c72;
+  --info: #82acd2;
+  --canvas-outside: #101318;
+  --ruler-bg: #12161c;
+  --ruler-ink: #7e8794;
+  color-scheme: dark;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('/fonts/Inter-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('/fonts/Inter-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+}

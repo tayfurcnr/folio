@@ -1,0 +1,66 @@
+.ui-button {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  min-width: 0;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--button-border, var(--border));
+  border-radius: 10px;
+  background: var(--button-surface, var(--panel-bg));
+  color: var(--button-foreground, var(--text));
+  font: inherit;
+  font-size: 12px;
+  font-weight: 640;
+  line-height: 1.15;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 3px #1f2a371c;
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+.ui-button::before { position: absolute; z-index: 0; inset: 0; border-radius: inherit; background: radial-gradient(130px circle at 50% 50%, color-mix(in srgb, #fff 12%, transparent), transparent 72%); content: ''; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+.ui-button:not(:disabled):hover::before, .ui-button:not(:disabled):focus-visible::before { opacity: .55; }
+.ui-button > * { position: relative; }
+.ui-button__icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; }
+.ui-button .shell-icon { width: 18px; height: 18px; flex: 0 0 auto; transition: transform .18s cubic-bezier(.2,.8,.2,1), color .18s ease; }
+.ui-button:not(:disabled):hover .shell-icon, .ui-button:not(:disabled):focus-visible .shell-icon { transform: translateY(-1px) scale(1.06); }
+[data-icon-effect='shake']:not(:disabled):is(:hover, :focus-visible) :is(.shell-icon, svg) { animation: ui-icon-shake .36s ease-in-out both; }
+[data-icon-effect='bounce']:not(:disabled):is(:hover, :focus-visible) :is(.shell-icon, svg) { animation: ui-icon-bounce .42s cubic-bezier(.2,.8,.3,1.25) both; }
+[data-icon-effect='spin']:not(:disabled):is(:hover, :focus-visible) :is(.shell-icon, svg) { animation: ui-icon-spin .48s cubic-bezier(.2,.75,.25,1) both; }
+[data-icon-effect='pulse']:not(:disabled):is(:hover, :focus-visible) :is(.shell-icon, svg) { animation: ui-icon-pulse .42s ease-out both; }
+@keyframes ui-icon-shake { 0%, 100% { transform: translateY(-1px) scale(1.06); } 22% { transform: translate(-1px, -1px) rotate(-7deg) scale(1.06); } 44% { transform: translate(1px, -1px) rotate(7deg) scale(1.06); } 66% { transform: translate(-.5px, -1px) rotate(-3deg) scale(1.06); } 84% { transform: translate(.5px, -1px) rotate(3deg) scale(1.06); } }
+@keyframes ui-icon-bounce { 0%, 100% { transform: translateY(-1px) scale(1.06); } 38% { transform: translateY(-4px) scale(1.1); } 68% { transform: translateY(0) scale(1.02); } }
+@keyframes ui-icon-spin { from { transform: translateY(-1px) scale(1.06) rotate(0); } to { transform: translateY(-1px) scale(1.06) rotate(360deg); } }
+@keyframes ui-icon-pulse { 0%, 100% { transform: translateY(-1px) scale(1.06); } 48% { transform: translateY(-1px) scale(1.24); } }
+.ui-button--md { min-height: 36px; padding-inline: 12px; }
+.ui-button--sm { min-height: 32px; padding-inline: 10px; border-radius: 9px; font-size: 11px; }
+.ui-button--icon { width: 36px; min-height: 36px; padding: 0; }
+.ui-button--primary, .ui-button--accent { --button-border: var(--accent); --button-surface: var(--accent); --button-foreground: #fff; }
+.ui-button--secondary { --button-border: var(--border); --button-surface: var(--panel-bg); --button-foreground: var(--text); }
+.ui-button--outline { --button-border: color-mix(in srgb, var(--accent) 50%, var(--border)); --button-surface: var(--panel-bg); --button-foreground: var(--accent-strong); }
+.ui-button--menu-item { --button-border: transparent; --button-surface: transparent; --button-foreground: var(--text); box-shadow: none; }
+.ui-button--menu-item::before { display: none; }
+.ui-button--menu-item .shell-icon { color: var(--accent-strong); }
+.ui-button--ghost { --button-border: transparent; --button-surface: transparent; --button-foreground: var(--text); box-shadow: none; }
+.ui-button--danger { --button-border: var(--danger); --button-surface: var(--danger); --button-foreground: var(--danger-text); }
+.ui-button:not(:disabled):hover { transform: translateY(-1px); }
+.ui-button:not(:disabled):not(.ui-button--ghost):not(.ui-button--menu-item):hover { box-shadow: 0 3px 7px #1f2a3724; }
+.ui-button--primary:not(:disabled):hover, .ui-button--accent:not(:disabled):hover { --button-surface: color-mix(in srgb, var(--accent) 92%, #000); box-shadow: 0 3px 10px color-mix(in srgb, var(--accent) 20%, transparent); }
+.ui-button--secondary:not(:disabled):hover { --button-border: color-mix(in srgb, var(--accent) 42%, var(--border)); --button-surface: var(--accent-soft); --button-foreground: var(--accent-strong); }
+.ui-button--outline:not(:disabled):hover { --button-border: var(--accent); --button-surface: var(--accent-soft); --button-foreground: var(--accent-strong); }
+.ui-button--menu-item:not(:disabled):hover { --button-border: transparent; --button-surface: var(--accent-soft); --button-foreground: var(--text); transform: none; }
+.ui-button--ghost:not(:disabled):hover { --button-border: color-mix(in srgb, var(--accent) 20%, transparent); --button-surface: var(--accent-soft); --button-foreground: var(--accent-strong); }
+.ui-button--danger:not(:disabled):hover { --button-surface: color-mix(in srgb, var(--danger) 88%, #000); }
+.ui-button:active:not(:disabled) { transform: translateY(0); }
+.ui-button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.ui-button:disabled { transform: none; box-shadow: none; cursor: not-allowed; opacity: .52; }
+.ui-button[aria-disabled='true'] { cursor: pointer; opacity: .68; }
+.ui-button[aria-disabled='true']:hover { opacity: .9; }
+.ui-button__unavailable { position: absolute !important; z-index: 30; bottom: calc(100% + 7px); left: 50%; width: max-content; max-width: min(260px, 80vw); padding: 7px 9px; transform: translateX(-50%); border: 1px solid var(--border); border-radius: 7px; background: var(--panel-bg); color: var(--text); font-size: 10px; font-weight: 500; line-height: 1.35; text-align: center; white-space: normal; box-shadow: 0 5px 16px rgb(31 42 55 / 14%); pointer-events: none; }
+.ui-button--summary { list-style: none; }
+.ui-button--summary::-webkit-details-marker { display: none; }
+.shell-menu[open] > .ui-button--summary { --button-border: color-mix(in srgb, var(--accent) 42%, var(--border)); --button-surface: var(--accent-soft); --button-foreground: var(--accent-strong); }
+@media (prefers-reduced-motion: reduce) { .ui-button, .ui-button::before, .ui-button .shell-icon { transition: none; } [data-icon-effect] :is(.shell-icon, svg) { animation: none !important; } .ui-button:not(:disabled):hover .shell-icon, .ui-button:not(:disabled):focus-visible .shell-icon { transform: none; } }
