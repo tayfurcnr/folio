@@ -2,11 +2,12 @@ import logoUrl from '../../../../../logo/folio_logo.svg?url'
 import appIconUrl from '../../../../../logo/folio-icon.svg?url'
 import { Icon } from '../components/Icon'
 import { Button } from '../components/Button'
+import { Avatar, AvatarGroup, AvatarGroupCount } from '../components/Avatar'
 import { EditorMenus } from './EditorMenus'
 
-type Props = { readonly colorMode: 'light' | 'dark'; readonly rulersVisible: boolean; readonly onColorModeChange: (mode: 'light' | 'dark') => void; readonly onToggleRulers: () => void }
+type Props = { readonly colorMode: 'light' | 'dark'; readonly rulersVisible: boolean; readonly commentsOpen: boolean; readonly onToggleComments: () => void; readonly onColorModeChange: (mode: 'light' | 'dark') => void; readonly onToggleRulers: () => void }
 
-export function EditorHeader({ colorMode, rulersVisible, onColorModeChange, onToggleRulers }: Props) {
+export function EditorHeader({ colorMode, rulersVisible, commentsOpen, onToggleComments, onColorModeChange, onToggleRulers }: Props) {
   return <header className="topbar">
     <div className="topbar__left">
       <a className="brand" href="#editor" aria-label="Folio editör ana sayfa">
@@ -27,8 +28,12 @@ export function EditorHeader({ colorMode, rulersVisible, onColorModeChange, onTo
       </div>
     </div>
     <div className="topbar__right">
-      <Button variant="secondary" size="sm" className="collaborators" aria-label="Ekip iş birliği henüz kullanılabilir değil" title="Ekip iş birliği henüz kullanılabilir değil" disabled icon={<Icon name="users-round" />}><span>Ekip</span></Button>
-      <Button variant="secondary" size="icon" className="topbar__icon-button" disabled aria-label="Yorumlar kullanılamıyor" title="Yorumlar henüz kullanılabilir değil" icon={<Icon name="message-circle" />} />
+      <AvatarGroup label="Ekip üyeleri, örnek görünüm">
+        <Avatar initials="T" label="Üye 1, örnek" tone="accent" />
+        <Avatar initials="E" label="Üye 2, örnek" tone="blue" />
+        <AvatarGroupCount label="2 üye daha, örnek">+2</AvatarGroupCount>
+      </AvatarGroup>
+      <Button variant="secondary" size="icon" className="topbar__icon-button" aria-label={commentsOpen ? 'Yorumları kapat' : 'Yorumları aç'} title="Yorumlar" aria-expanded={commentsOpen} aria-controls="comments-chat-panel" onClick={onToggleComments} icon={<Icon name="message-circle" />} />
       <Button variant="secondary" size="sm" className="topbar__share" disabled icon={<Icon name="share-2" />}>Paylaş</Button>
       <Button variant="accent" size="sm" className="topbar__present" disabled icon={<Icon name="play" />}>Sunumu Yap</Button>
     </div>

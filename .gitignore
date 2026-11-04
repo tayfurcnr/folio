@@ -16,3 +16,4 @@ test-results/
 dist/
 coverage/
 *.tsbuildinfo
+.agents

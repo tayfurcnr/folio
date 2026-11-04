@@ -141,6 +141,7 @@ React sadece görselleştirecek.
 - Seçim temizleme
 - Canvas dışına çıkma
 - Zoom/pan uyumluluğu
+- Slayt sınırının dışına taşan nesneleri çalışma alanında düşük opaklıkla önizleme; slayt içindeki render normal kalmalı ve taşma önizlemesi yalnızca canvas dışında görünmeli.
 
 İkinci bir React selection otoritesi oluşturma.
 
@@ -202,6 +203,7 @@ En az aşağıdakileri doğrula:
 - Pointer selection
 - Drag/resize
 - Zoom 50%/100%/200%
+- Canvas sınırını aşan nesnelerin taşma önizlemesi ve normal opaklıkta slayt içi render
 - Çoklu seçim
 - Klavye kısayolları
 - Undo/redo

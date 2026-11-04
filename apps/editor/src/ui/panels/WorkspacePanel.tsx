@@ -13,7 +13,7 @@ const panelCopy: Record<WorkspaceSection, { title: string; description: string }
   templates: { title: 'Şablonlar', description: 'Sunumunuzun düzenini belirleyin.' },
   theme: { title: 'Tema', description: 'Renk ve yazı tipi seçimlerinizi yönetin.' },
   components: { title: 'Bileşenler', description: 'Slaytlarınız için içerik türlerine göz atın.' },
-  media: { title: 'Medya', description: 'Sunum dosyaları ve görselleri.' },
+  media: { title: 'Kütüphane', description: 'Sunumunuzda kullanacağınız dosyalar.' },
   tools: { title: 'Araçlar', description: 'Slayt içeriği ekleme ve çizim araçları.' },
   layers: { title: 'Katmanlar', description: 'Slayttaki nesnelerin sırası ve görünürlüğü.' },
   actions: { title: 'Eylemler', description: 'Slayt geçişleri ve animasyonlar.' },
@@ -34,7 +34,7 @@ function PanelContent({ section }: Props) {
   if (section === 'tools') return <ToolsPanel />
   if (section === 'assistant') return <AssistantPanel />
   if (section === 'templates') return <TemplatesPanel query={query} setQuery={setQuery} tab={tab} setTab={setTab} />
-  if (section === 'media') return <LibraryPanel query={query} setQuery={setQuery} tabs={['Tümü', 'Görseller', 'Video', 'Ses']} tab={tab} setTab={setTab} empty="Yüklenen medya bu aşamada kullanılabilir değil." />
+  if (section === 'media') return <LibraryPanel query={query} setQuery={setQuery} tabs={['Tümü', 'Görseller', 'Videolar', 'Ses', 'Tablolar', 'Belgeler']} tab={tab} setTab={setTab} empty="Kütüphanede henüz dosya yok." />
   if (section === 'components') return <ComponentsPanel query={query} setQuery={setQuery} />
   if (section === 'theme') return <ThemePanel />
   if (section === 'layers') return <UnavailablePanel icon="layers" title="Katman listesi kullanılamıyor" description="Katmanlar, sunum motoru bağlandığında burada listelenecek." />
@@ -64,25 +64,32 @@ function TemplatesPanel({ query, setQuery, tab, setTab }: { readonly query: stri
 
 function LibraryPanel({ query, setQuery, tabs, tab, setTab, empty }: { readonly query: string; readonly setQuery: (value: string) => void; readonly tabs: string[]; readonly tab: string; readonly setTab: (value: string) => void; readonly empty: string }) {
   const [showCategories, setShowCategories] = useState(true)
-  return <><PanelSearch value={query} onChange={setQuery} placeholder="Bu alan motor bağlantısını bekliyor" ariaLabel="Medya dosyalarında ara" disabled filter={{ ariaLabel: 'Medya türü filtrelerini göster veya gizle', expanded: showCategories, title: 'Tür filtrelerini göster veya gizle', onToggle: () => setShowCategories((visible) => !visible) }} />{showCategories && <CategoryTabs className="library-panel__categories" label="Medya kategorisi" value={tab} onChange={setTab} items={tabs.map((label) => ({ value: label, label }))} />}<UnavailablePanel icon="search" title={empty} description="Bu görünüm yalnızca arayüz önizlemesidir; henüz dosya veya belge verisi yüklenmiyor." /></>
+  return <><PanelSearch value={query} onChange={setQuery} placeholder="Kütüphanede ara…" ariaLabel="Kütüphanede ara" disabled filter={{ ariaLabel: 'Kütüphane türü filtrelerini göster veya gizle', expanded: showCategories, title: 'Tür filtrelerini göster veya gizle', onToggle: () => setShowCategories((visible) => !visible) }} />{showCategories && <CategoryTabs className="library-panel__categories" label="Kütüphane kategorisi" value={tab} onChange={setTab} items={tabs.map((label) => ({ value: label, label }))} />}<UnavailablePanel icon="search" title={empty} description="Bu görünüm yalnızca arayüz önizlemesidir; henüz dosya veya belge verisi yüklenmiyor." /></>
 }
 
 function ToolsPanel() {
   const [query, setQuery] = useState('')
+  const [category, setCategory] = useState('all')
+  const [showCategories, setShowCategories] = useState(true)
   const groups = [
-    { icon: 'paintbrush' as const, title: 'Çizim araçları', description: 'Kalem, işaretleyici, fosforlu kalem ve silgi' },
-    { icon: 'shapes' as const, title: 'Şekiller', description: 'Temel şekiller ve serbest çizim' },
-    { icon: 'chevron-right' as const, title: 'Çizgiler', description: 'Çizgi ve bağlantılar' },
-    { icon: 'type' as const, title: 'Denklem ve sembol', description: 'Metin, simge ve matematik' },
-    { icon: 'star' as const, title: 'WordArt ve SmartArt', description: 'Görsel metin ve diyagramlar' },
-    { icon: 'table' as const, title: 'Tablolar', description: 'Tablo ve veri düzenleri' },
+    { icon: 'paintbrush' as const, title: 'Çizim araçları', description: 'Kalem, işaretleyici, fosforlu kalem ve silgi', category: 'draw' },
+    { icon: 'shapes' as const, title: 'Şekiller', description: 'Temel şekiller ve serbest çizim', category: 'visual' },
+    { icon: 'chevron-right' as const, title: 'Çizgiler', description: 'Çizgi ve bağlantılar', category: 'visual' },
+    { icon: 'type' as const, title: 'Denklem ve sembol', description: 'Metin, simge ve matematik', category: 'text' },
+    { icon: 'star' as const, title: 'WordArt ve SmartArt', description: 'Görsel metin ve diyagramlar', category: 'visual' },
+    { icon: 'table' as const, title: 'Tablolar', description: 'Tablo ve veri düzenleri', category: 'data' },
   ]
-  const filteredGroups = groups.filter((group) => `${group.title} ${group.description}`.toLocaleLowerCase('tr').includes(query.toLocaleLowerCase('tr')))
-  const tiles: [string, string][] = [['type', 'Metin'], ['images', 'Görsel'], ['video', 'Video'], ['chart-column', 'Grafik'], ['table', 'Tablo'], ['plus', 'Not']]
-  const filteredTiles = tiles.filter(([, label]) => label.toLocaleLowerCase('tr').includes(query.toLocaleLowerCase('tr')))
-  return <><PanelSearch value={query} onChange={setQuery} placeholder="Araçlarda ara…" ariaLabel="Araçlarda ara" /><div className="tool-grid">
-    {filteredTiles.map(([icon, label]) => <Button variant="secondary" size="md" className="tool-tile" disabled key={label} title="Bu araç motor bağlantısını bekliyor" icon={<Icon name={icon as IconName} />}><span>{label}</span></Button>)}
-  </div><div className="tool-groups">{filteredGroups.map((group) => <details className="tool-group" key={group.title}><summary><Icon name={group.icon} /><span>{group.title}</span><Icon name="chevron-right" className="tool-group__chevron" /></summary><div className="tool-group__detail"><p>{group.description}</p><span>Motor bağlantısı bekleniyor</span></div></details>)}{filteredGroups.length === 0 && filteredTiles.length === 0 && <p className="panel-note">“{query}” için araç bulunamadı.</p>}</div></>
+  const categories = [{ value: 'all', label: 'Tümü' }, { value: 'text', label: 'Metin' }, { value: 'visual', label: 'Görsel' }, { value: 'data', label: 'Veri' }, { value: 'draw', label: 'Çizim' }]
+  const filteredGroups = groups.filter((group) => (category === 'all' || group.category === category) && `${group.title} ${group.description}`.toLocaleLowerCase('tr').includes(query.toLocaleLowerCase('tr')))
+  const quickTools: [IconName, string][] = [['type', 'Metin'], ['image', 'Görsel'], ['video', 'Video'], ['chart-column', 'Grafik'], ['table', 'Tablo'], ['sticky-note', 'Not']]
+  return <div className="tools-panel-content">
+    <PanelSearch value={query} onChange={setQuery} placeholder="Araçlarda ara…" ariaLabel="Araçlarda ara" filter={{ ariaLabel: 'Araç kategorilerini göster veya gizle', expanded: showCategories, title: 'Kategorileri göster veya gizle', onToggle: () => setShowCategories((visible) => !visible) }} />
+    {showCategories && <CategoryTabs className="tools-panel__categories" label="Araç kategorisi" value={category} onChange={setCategory} items={categories} />}
+    <div className="tools-panel-quick" role="group" aria-label="Hızlı araçlar">
+      {quickTools.map(([icon, label]) => <Button variant="secondary" size="md" className="tools-panel-quick__button" iconEffect="shake" disabled key={label} title={`${label} ekleme motor bağlantısını bekliyor`} icon={<Icon name={icon} />}><span>{label}</span></Button>)}
+    </div>
+    <div className="tool-groups">{filteredGroups.map((group) => <details className="tool-group" key={group.title}><summary><Icon name={group.icon} /><span>{group.title}</span><Icon name="chevron-right" className="tool-group__chevron" /></summary><div className="tool-group__detail"><p>{group.description}</p><span>Motor bağlantısı bekleniyor</span></div></details>)}{filteredGroups.length === 0 && <p className="panel-note">“{query}” için araç bulunamadı.</p>}</div>
+  </div>
 }
 
 function ComponentsPanel({ query, setQuery }: { readonly query: string; readonly setQuery: (value: string) => void }) {
@@ -94,8 +101,18 @@ function ComponentsPanel({ query, setQuery }: { readonly query: string; readonly
 }
 
 function ThemePanel() {
-  const [tab, setTab] = useState('Renkler')
-  return <><div className="theme-tabs" role="tablist" aria-label="Tema ayarları">{['Renkler', 'Yazı tipleri', 'Stil'].map((label) => <button type="button" role="tab" aria-selected={tab === label} className={tab === label ? 'is-active' : ''} key={label} onClick={() => setTab(label)}>{label}</button>)}</div>{tab === 'Renkler' ? <><h3 className="section-title">Renk paletleri</h3><div className="palette-list">{[['Coral', '#ff6f3c', '#1f2a37', '#fad9cc', '#f4f5f7'], ['Sage', '#c8d7cc', '#52645a', '#e9e7e2', '#faf8f4'], ['Lavender', '#d8d4ee', '#514e6c', '#fce8df', '#f4f5f7']].map(([name, ...colors]) => <Button variant="secondary" size="sm" className="palette-option" disabled key={name} title="Palet seçimi motor bağlantısını bekliyor"><span>{name}</span><span className="palette-swatches">{colors.map((color) => <i key={color} style={{ background: color }} />)}</span></Button>)}</div></> : <UnavailablePanel icon={tab === 'Yazı tipleri' ? 'type' : 'palette'} title={`${tab} ayarları bağlı değil`} description="Bu alan sunum motoru bağlandığında kullanılabilir olacak." />}<p className="panel-note">Tema uygulama belge içeriğini değiştirir; motor bağlandığında kullanılabilir olur.</p></>
+  const [query, setQuery] = useState('')
+  const [tab, setTab] = useState('all')
+  const [showCategories, setShowCategories] = useState(true)
+  const tabs = [{ value: 'all', label: 'Tümü' }, { value: 'colors', label: 'Renkler' }, { value: 'fonts', label: 'Yazı tipleri' }, { value: 'style', label: 'Stil' }]
+  const palettes = [['Coral', '#ff6f3c', '#1f2a37', '#fad9cc', '#f4f5f7'], ['Sage', '#c8d7cc', '#52645a', '#e9e7e2', '#faf8f4'], ['Lavender', '#d8d4ee', '#514e6c', '#fce8df', '#f4f5f7']]
+  const filteredPalettes = palettes.filter(([name]) => name!.toLocaleLowerCase('tr-TR').includes(query.trim().toLocaleLowerCase('tr-TR')))
+  return <>
+    <PanelSearch value={query} onChange={setQuery} placeholder="Temalarda ara…" ariaLabel="Temalarda ara" filter={{ ariaLabel: 'Tema kategorilerini göster veya gizle', expanded: showCategories, title: 'Kategorileri göster veya gizle', onToggle: () => setShowCategories((visible) => !visible) }} />
+    {showCategories && <CategoryTabs className="theme-panel__categories" label="Tema kategorisi" value={tab} onChange={setTab} items={tabs} />}
+    {tab === 'all' || tab === 'colors' ? <><h3 className="section-title">Renk paletleri</h3><div className="palette-list">{filteredPalettes.map(([name, ...colors]) => <Button variant="secondary" size="sm" className="palette-option" disabled key={name} title="Palet seçimi motor bağlantısını bekliyor"><span>{name}</span><span className="palette-swatches">{colors.map((color) => <i key={color} style={{ background: color }} />)}</span></Button>)}</div>{filteredPalettes.length === 0 && <p className="panel-note">“{query}” için tema bulunamadı.</p>}</> : <UnavailablePanel icon={tab === 'fonts' ? 'type' : 'palette'} title={`${tabs.find((item) => item.value === tab)?.label} ayarları bağlı değil`} description="Bu alan sunum motoru bağlandığında kullanılabilir olacak." />}
+    <p className="panel-note">Tema uygulama belge içeriğini değiştirir; motor bağlandığında kullanılabilir olur.</p>
+  </>
 }
 
 function AssistantPanel() {
