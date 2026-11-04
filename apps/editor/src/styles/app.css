@@ -14,7 +14,7 @@ button:disabled { cursor: not-allowed; }
 .brand { display: flex; width: 56px; height: 36px; flex: 0 0 auto; align-items: center; justify-content: center; text-decoration: none; }
 .brand img { display: block; width: 32px; height: 32px; object-fit: contain; }
 .brand .brand__full { display: none; }
-.brand .brand__icon { display: block; }
+.brand .brand__icon { display: block; transform: translateX(3px); }
 .topbar__menus { flex: 0 0 auto; gap: 5px; }
 .topbar__document { flex: 1 1 auto; gap: 8px; margin-left: 0; }
 .topbar__document-separator { align-self: stretch; width: 1px; min-height: 32px; background: var(--border); }
@@ -120,6 +120,10 @@ button:disabled { cursor: not-allowed; }
 .panel-heading__more { display: grid; width: 30px; min-width: 30px; height: 30px; min-height: 30px; flex: 0 0 30px; flex: 0 0 auto; place-items: center; margin-left: auto; border: 0; border-radius: 7px; background: transparent; color: var(--text-muted); }
 .panel-heading__more[aria-disabled='true'] { opacity: .5; }
 .panel-body { min-height: 0; flex: 1 1 auto; overflow: auto; padding: 13px 14px 16px; }
+.library-panel { display: flex; min-height: 100%; flex-direction: column; }
+.library-panel__content { flex: 0 0 auto; }
+.library-panel__footer { position: sticky; bottom: -16px; z-index: 1; display: flex; margin: auto -14px -16px; padding: 10px 14px; border-top: 1px solid var(--border); background: var(--panel-bg); }
+.library-panel__add.ui-button { width: 100%; justify-content: center; }
 .panel-search { display: flex; width: 100%; min-width: 0; flex: 0 0 auto; align-items: center; gap: 7px; }
 .panel-search__field { display: flex; min-width: 0; min-height: 38px; height: 38px; flex: 1 1 auto; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid var(--border); border-radius: 10px; background: color-mix(in srgb, var(--canvas-outside) 36%, var(--panel-bg)); color: var(--text-muted); transition: border-color 140ms ease, box-shadow 140ms ease; }
 .panel-search__field:focus-within { border-color: color-mix(in srgb, var(--accent) 48%, var(--border)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent); }
