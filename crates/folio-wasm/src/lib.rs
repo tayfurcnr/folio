@@ -61,6 +61,10 @@ impl Engine {
         }
     }
 
+    pub fn create_blank_slide(&mut self) -> EngineResult<Value> {
+        self.execute("slide.new", r#"{"layout":"blank"}"#)
+    }
+
     fn document(&self) -> EngineResult<&deckcraft_engine::DocState> {
         self.session
             .doc()
@@ -297,19 +301,37 @@ impl Engine {
     pub fn redo(&mut self) -> EngineResult<Value> {
         self.execute("edit.redo", "{}")
     }
+
+    #[cfg(test)]
+    pub fn regression_diagnostics(&self) -> EngineResult<Value> {
+        let doc = self.document()?;
+        Ok(json!({
+            "clipboard": {
+                "shapes": self.session.clipboard.shapes.len(),
+                "plain": self.session.clipboard.plain,
+                "pastes": self.session.clipboard.pastes,
+            },
+            "duplicateOffset": self.session.prefs.duplicate_offset,
+            "undoEntries": doc.history.undo.len(),
+            "redoEntries": doc.history.redo.len(),
+            "journalTail": self.session.journal.last(),
+        }))
+    }
 }
 
 #[cfg(target_arch = "wasm32")]
 mod wasm_api {
     use super::{Engine, EngineError};
     use js_sys::Uint8Array;
+    use serde::Serialize;
     use wasm_bindgen::prelude::*;
 
     fn js_error(error: EngineError) -> JsValue {
         serde_wasm_bindgen::to_value(&error).unwrap_or_else(|_| JsValue::from_str("{\"code\":\"SERIALIZATION_ERROR\",\"message\":\"Could not serialize engine error\",\"retryable\":false}"))
     }
     fn js_value(value: serde_json::Value) -> Result<JsValue, EngineError> {
-        serde_wasm_bindgen::to_value(&value)
+        value
+            .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
             .map_err(|error| EngineError::new("SERIALIZATION_ERROR", error.to_string(), false))
     }
 
@@ -327,6 +349,13 @@ mod wasm_api {
 
     #[wasm_bindgen]
     impl FolioSession {
+        #[wasm_bindgen(js_name = createBlankSlide)]
+        pub fn create_blank_slide(&mut self) -> Result<JsValue, JsValue> {
+            self.engine
+                .create_blank_slide()
+                .and_then(js_value)
+                .map_err(js_error)
+        }
         pub fn execute(&mut self, command: &str, params_json: &str) -> Result<JsValue, JsValue> {
             self.engine
                 .execute(command, params_json)
@@ -422,6 +451,21 @@ mod wasm_api {
                 .export_pptx()
                 .map(|bytes| Uint8Array::from(bytes.as_slice()))
                 .map_err(js_error)
+        }
+        #[cfg(test)]
+        #[wasm_bindgen(js_name = regressionDiagnostics)]
+        pub fn regression_diagnostics(&self) -> Result<JsValue, JsValue> {
+            self.engine
+                .regression_diagnostics()
+                .and_then(js_value)
+                .map_err(js_error)
+        }
+        #[cfg(test)]
+        #[wasm_bindgen(js_name = seedRegressionClipboard)]
+        pub fn seed_regression_clipboard(&mut self) -> Result<(), JsValue> {
+            self.engine.session.clipboard.plain = "folio-regression-clipboard".into();
+            self.engine.session.prefs.duplicate_offset = 37.0;
+            Ok(())
         }
     }
 }

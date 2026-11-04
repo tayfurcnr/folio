@@ -13,6 +13,7 @@ function fakeLoader() {
       return {
         free() { state.freed = true },
         execute(command, params) { state.calls.push([command, params]); return { result: null, revision: state.calls.length, dirty: true, canUndo: true, canRedo: false } },
+        createBlankSlide() { state.calls.push(['slide.new', '{"layout":"blank"}']); return { result: { id: '1' }, revision: 1, dirty: true, canUndo: true, canRedo: false } },
         insertShapesBatch(shapes) { state.calls.push(['batch', shapes]); return { result: {}, revision: 1, dirty: true, canUndo: true, canRedo: false } },
         pointer() { return { result: null, revision: 1, dirty: false, canUndo: false, canRedo: false } },
         key() { return { result: null, revision: 1, dirty: false, canUndo: false, canRedo: false } },

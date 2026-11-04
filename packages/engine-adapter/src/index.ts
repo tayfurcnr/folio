@@ -61,6 +61,7 @@ export interface ImportResult extends DocumentSummary { importedSlideCount: numb
 interface WasmSession {
   free(): void
   execute(command: string, paramsJson: string): unknown
+  createBlankSlide(): unknown
   insertShapesBatch(shapesJson: string): unknown
   pointer(kind: string, x: number, y: number, modsJson: string): unknown
   key(key: string, modsJson: string): unknown
@@ -81,6 +82,8 @@ type WasmLoader = () => Promise<WasmModule>
 export interface EngineAdapter {
   initialize(): Promise<EngineInfo>
   createSession(): Promise<SessionId>
+  createBlankSlide(id: SessionId): Promise<EngineUpdate>
+  createBlankSlide(id: SessionId): Promise<EngineUpdate>
   closeSession(id: SessionId): void
   execute(id: SessionId, command: EngineCommand): Promise<EngineUpdate>
   insertShapesBatch(id: SessionId, shapes: unknown[]): Promise<EngineUpdate>
@@ -141,6 +144,7 @@ export function createEngineAdapter(loadWasm: WasmLoader = defaultLoader): Engin
       catch (error) { throw new EngineAdapterError({ code: 'WASM_LOAD_FAILED', message: error instanceof Error ? error.message : String(error), retryable: true }, newOperationId()) }
     },
     closeSession(id) { const session = sessions.get(id); if (session) { sessions.delete(id); session.free() } },
+    createBlankSlide(id) { return run((s) => asUpdate(s.createBlankSlide()), id) },
     execute(id, command) { return run((s) => asUpdate(s.execute(command.type === 'custom' ? command.name : command.type, JSON.stringify(command.params ?? {}))), id) },
     insertShapesBatch(id, shapes) { return run((s) => asUpdate(s.insertShapesBatch(JSON.stringify(shapes))), id) },
     pointer(id, input) { return run((s) => asUpdate(s.pointer(input.kind, input.x, input.y, JSON.stringify(input.modifiers ?? {}))), id) },
