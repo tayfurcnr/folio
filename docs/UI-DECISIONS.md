@@ -23,7 +23,7 @@ Bu belge, WP1 planı hazırlandıktan sonra onaylanan ve Folio React kabuğuna u
 ## Navigasyon ve paneller
 
 - Sekiz rail öğesi sırasını korur; dördüncü öğenin görünen adı `Medya` yerine `Kütüphane` olur.
-- Kütüphane; Görseller, Videolar, Ses, Tablolar ve Belgeler için ortak arama/filtre düzenini kullanır. Dosya içeriği bağlı değilse boş durum gösterilir.
+- Kütüphane; Görseller, Videolar, Ses, Tablolar ve Belgeler için ortak arama/filtre düzenini kullanır. Dosya içeriği bağlı değilse boş durum gösterilir ve panelin altına sabit `Dosya ekle` düğmesi yer alır. Dosya seçme/ekleme host bağlantısı gelene kadar düğme devre dışıdır.
 - Bileşen panelindeki arama ve kategori filtreleri araç düğmelerinin üstünde, aralarında tutarlı boşlukla yer alır.
 - Arama alanı ile filtre düğmesi aynı satırda ve yakın aralıkta; kategori satırı aramadan sonra sabit bir üst boşlukla başlar. Kütüphane ve Tema panelleri ortak arama/filtre bileşenlerini paylaşır.
 - Araçlar panelindeki Metin, Görsel, Video, Grafik, Tablo ve Not kısayolları ortak Button sistemini kullanır. Motor bağlantısı olmadan belgeye içerik eklemezler.

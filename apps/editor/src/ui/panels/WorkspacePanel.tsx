@@ -64,7 +64,16 @@ function TemplatesPanel({ query, setQuery, tab, setTab }: { readonly query: stri
 
 function LibraryPanel({ query, setQuery, tabs, tab, setTab, empty }: { readonly query: string; readonly setQuery: (value: string) => void; readonly tabs: string[]; readonly tab: string; readonly setTab: (value: string) => void; readonly empty: string }) {
   const [showCategories, setShowCategories] = useState(true)
-  return <><PanelSearch value={query} onChange={setQuery} placeholder="Kütüphanede ara…" ariaLabel="Kütüphanede ara" disabled filter={{ ariaLabel: 'Kütüphane türü filtrelerini göster veya gizle', expanded: showCategories, title: 'Tür filtrelerini göster veya gizle', onToggle: () => setShowCategories((visible) => !visible) }} />{showCategories && <CategoryTabs className="library-panel__categories" label="Kütüphane kategorisi" value={tab} onChange={setTab} items={tabs.map((label) => ({ value: label, label }))} />}<UnavailablePanel icon="search" title={empty} description="Bu görünüm yalnızca arayüz önizlemesidir; henüz dosya veya belge verisi yüklenmiyor." /></>
+  return <div className="library-panel">
+    <div className="library-panel__content">
+      <PanelSearch value={query} onChange={setQuery} placeholder="Kütüphanede ara…" ariaLabel="Kütüphanede ara" disabled filter={{ ariaLabel: 'Kütüphane türü filtrelerini göster veya gizle', expanded: showCategories, title: 'Tür filtrelerini göster veya gizle', onToggle: () => setShowCategories((visible) => !visible) }} />
+      {showCategories && <CategoryTabs className="library-panel__categories" label="Kütüphane kategorisi" value={tab} onChange={setTab} items={tabs.map((label) => ({ value: label, label }))} />}
+      <UnavailablePanel icon="search" title={empty} description="Bu görünüm yalnızca arayüz önizlemesidir; henüz dosya veya belge verisi yüklenmiyor." />
+    </div>
+    <footer className="library-panel__footer">
+      <Button variant="accent" size="md" className="library-panel__add" disabled title="Dosya ekleme host bağlantısıyla kullanılabilir olacak" icon={<Icon name="plus" />}>Dosya ekle</Button>
+    </footer>
+  </div>
 }
 
 function ToolsPanel() {
