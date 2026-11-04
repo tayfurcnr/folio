@@ -46,7 +46,7 @@ export function EditorMenus({ colorMode, rulersVisible, onColorModeChange, onTog
           onClick={() => setOpenMenu(openMenu === key ? null : key)}
           iconEffect="shake"
           icon={<Icon name={menu.icon} />}
-        ><span>{menu.label}</span></Button>
+        ><span>{menu.label}</span><Icon name="chevron-down" className="menu-trigger__chevron" /></Button>
         {openMenu === key && <div className="menu-popover" role="menu" aria-label={menu.label}>
           {menu.items.map((item) => item === 'Cetveller' ? <div key={item} className="menu-popover__item--toggle" role="group" aria-label="Cetveller ayarı">
             <Icon name="ruler" /><span>{item}</span><ToggleSwitch checked={rulersVisible} onChange={onToggleRulers} ariaLabel="Cetveller" />

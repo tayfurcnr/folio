@@ -20,8 +20,10 @@ button:disabled { cursor: not-allowed; }
 .topbar__document-separator { align-self: stretch; width: 1px; min-height: 32px; background: var(--border); }
 .topbar__title { flex: 0 1 auto; }
 .menu-wrap { position: relative; }
-.menu-trigger { display: flex; height: 36px; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid transparent; border-radius: var(--radius-control); background: transparent; color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; }
+.menu-trigger { display: flex; height: 36px; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid transparent; border-radius: var(--radius-control); background: transparent; color: var(--text); font-size: 13px; font-weight: 400; cursor: pointer; }
 .menu-trigger .icon { display: none; width: 15px; height: 15px; color: var(--text-muted); }
+.menu-trigger > .menu-trigger__chevron { display: block; width: 13px; height: 13px; margin-left: 1px; color: var(--text-muted); opacity: .72; transition: transform 160ms ease, color 160ms ease, opacity 160ms ease; }
+.menu-trigger.is-open > .menu-trigger__chevron { transform: rotate(180deg); color: var(--accent-strong); opacity: 1; }
 .menu-trigger:hover, .menu-trigger.is-open { border-color: var(--border); background: var(--canvas-outside); }
 .menu-popover { --editor-menu-label-color: var(--text); --editor-menu-label-size: 11px; --editor-menu-label-weight: 600; position: absolute; top: calc(100% + 6px); left: 0; z-index: 20; display: grid; width: 234px; gap: 2px; padding: 6px; border: 1px solid var(--border); border-radius: 10px; background: var(--panel-bg); box-shadow: 0 14px 36px rgb(31 42 55 / 16%); }
 .menu-popover > .ui-button, .menu-popover__appearance-label { color: var(--editor-menu-label-color); font-size: var(--editor-menu-label-size); font-weight: var(--editor-menu-label-weight); }
@@ -374,6 +376,7 @@ button:disabled { cursor: not-allowed; }
   .topbar__menus { gap: 0; }
   .menu-trigger { min-width: 31px; width: 31px; justify-content: center; padding: 0; font-size: 0; }
   .menu-trigger .icon { display: block; }
+  .menu-trigger > .menu-trigger__chevron { display: none; }
   .topbar__document { gap: 6px; margin-left: 0; }
   .topbar__document-separator { min-height: 28px; }
   .topbar__title { gap: 5px; font-size: 11px; }
