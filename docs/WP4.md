@@ -12,6 +12,8 @@ entegre et.
 
 **Mevcut Folio tasarımını değiştirme.**
 
+WP1 sonrası sağ üst yorum düğmesiyle açılan örnek yorum paneli [`UI-DECISIONS.md`](./UI-DECISIONS.md) kapsamında zaten arayüz kabuğuna eklenmiştir. Bu panel AI chat değildir. WP4'te geliştirilecek AI chat, sol Yapay Zekâ panelinde kalmalı; sağ yorum paneliyle ve ekip yorum servisiyle karıştırılmamalıdır. Yorum panelinin gerçek ekip verisi/persistence bağlantısı ayrıca servis ve host gerektirir.
+
 Bu görev yeni bir arayüz tasarlamak değil, mevcut arayüze profesyonel etkileşim bileşenleri eklemektir.
 
 ## 2. Tasarım ve skill kuralları

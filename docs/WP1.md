@@ -6,6 +6,8 @@ Yeni **Folio** sunum editörünün React + TypeScript tabanlı arayüz kabuğunu
 
 Folio sıfırdan tasarlanan yeni bir ürün değildir. Mevcut ATLAS/Folio arayüzünün devamıdır.
 
+> **Uygulama güncellemesi:** WP1 sonrasında onaylanan ve mevcut kabuğa uygulanan UI kararları [`UI-DECISIONS.md`](./UI-DECISIONS.md) içinde kayıtlıdır. Bu ek, aşağıdaki başlangıç mockup ayrıntılarından farklı olduğunda güncel kabul edilir.
+
 Eski ATLAS projesini tamamen koruyarak mevcut arayüzü yeni `ATLAS/folio/` klasörüne taşıyacağız.
 
 Yeni Folio'nun sunum motoru ilerleyen aşamalarda DeckCraft Rust/WASM olacak. Ancak **bu görev yalnızca WP1 kapsamındadır. Rust/WASM entegrasyonuna henüz başlanmayacak.**
@@ -270,15 +272,16 @@ Mevcut Folio header tasarımını koruyarak şu düzeni uygula.
 
 ### Sol bölüm
 
-- Folio logosu ve `folio` yazısı
+- Folio uygulama simgesi
 - Dosya
 - Düzenle
 - Görünüm
+- Geri al / ileri al
+- Bölücü ve sunum adı; kalem düğmesi adın hemen sağında
 
 ### Orta bölüm
 
-- Sunum adı
-- Kaydetme durumu
+- Bu sürümde ayrı orta header alanı yoktur; başlık sol menü ve geçmiş kontrollerinden sonra hizalanır.
 
 ### Sağ bölüm
 
@@ -286,6 +289,8 @@ Mevcut Folio header tasarımını koruyarak şu düzeni uygula.
 - Yorumlar
 - Paylaş
 - Sunumu Yap
+
+Kaydetme durumu üst çubukta tekrarlanmaz; yalnızca alt durum çubuğunda `Kaydetme Kapalı` gösterilir. Avatarlar ve yorum içeriği şu an örnek veridir, gerçek ekip bağlantısı değildir.
 
 Bu alanlar React bileşenleri olarak ayrılmalı.
 
@@ -321,7 +326,7 @@ Sol navigation rail kesin olarak şu sırada olacak:
 1. **Şablonlar** — `layout-template`
 2. **Tema** — `palette`
 3. **Bileşenler** — `shapes`
-4. **Medya** — `images`
+4. **Kütüphane** — `images` (Görseller, Videolar, Ses, Tablolar ve Belgeler)
 5. **Araçlar** — `pencil-ruler`
 6. **Katmanlar** — `layers`
 7. **Eylemler** — `zap`
@@ -381,13 +386,9 @@ Sekiz ana panel için mevcut Folio tasarım dilini kullan.
 - Diyagramlar
 - Hazır içerik blokları
 
-### Medya
+### Kütüphane (başlangıç planındaki Medya paneli)
 
-- Dosya yükleme alanı
-- Görseller
-- Videolar
-- Sesler
-- Yüklenenler
+Kullanıcıya görünen panel adı **Kütüphane** olur. Arama ve filtre alanları ortak panel arama bileşenleriyle gösterilir. Kategoriler Görseller, Videolar, Ses, Tablolar ve Belgeler'dir. Dosya kaynağı bağlı değilse boş durum gösterilir; sahte varlık listesi gösterilmez.
 
 ### Araçlar
 
@@ -465,7 +466,7 @@ Canvas'ın sağ alt kısmında şu kontrollerin mevcut yerleşimini koru:
 - Yakınlaştırma oranı
 - Ekrana sığdır
 
-Motor entegrasyonu gerektiren davranışları WP3'e bırak.
+Ekrana sığdır, kullanılabilir çalışma alanının ölçüsünü izler; pencere boyutu ve tarayıcı tam ekran değişince otomatik zoom yeniden hesaplanır. Gerçek içerik çizimi ve motor entegrasyonu gerektiren davranışları WP3'e bırak.
 
 ---
 
@@ -510,7 +511,12 @@ Rail ve sol içerik panelinin altına uzanmayacak.
 - Aktif slayt turuncu kenarlıkla gösterilebilsin.
 - Yeni slayt butonunun mevcut yerleşimi korunsun.
 - Yatay scroll desteklensin.
+- İçerik taşınca ortak Button bileşeninden yatay kaydırma okları görünsün.
+- Kart hover/focus büyümesi ve kartlar arasındaki araçların açılma animasyonu korunsun.
+- Kartlar sürükle-bırak sıralamayı UI önizlemesi için desteklesin.
 - Film şeridi gerektiğinde gizlenebilsin.
+
+Film şeridi `SlideFilmstrip` React bileşenidir. Mevcut kart verisi üç örnek slayttan oluşur; sürükle-bırak sırası yerel geçici UI state'idir, kalıcı belge sırası değildir. Gerçek slayt listesi, thumbnail, ekleme/silme ve motor sıralaması WP3 kapsamındadır. Aralık işlemleri ve yeni slayt düğmesi motor bağlantısına kadar devre dışı kalır.
 
 WP1'de motor olmadan sahte slayt oluşturma veya silme işlemleri ekleme.
 
@@ -522,7 +528,7 @@ Statik önizleme kullanılacaksa gösterim amaçlı olduğu açık olsun.
 
 Mevcut Folio alt durum düzeni korunsun.
 
-Canvas'ın sağ altında:
+Alt durum çubuğunun sağında:
 
 - El
 - Yakınlaştırma
@@ -530,7 +536,7 @@ Canvas'ın sağ altında:
 
 kontrolleri bulunsun.
 
-Durum çubuğu varsa belge ve slayt durum bilgileri için kullanılabilir.
+Alt durum çubuğunun solunda `Slaytlar` görünürlük düğmesi, sayfa numarası ve tek `Kaydetme Kapalı` göstergesi bulunur. Sağ tarafta Notlar, sunum, El, zoom ve Ekrana sığdır kontrolleri yer alır. Motor/servis gerektiren komutlar bağlı değilken devre dışı veya açıklamalı olur.
 
 Aynı yakınlaştırma kontrollerini birden fazla yerde tekrar oluşturma.
 

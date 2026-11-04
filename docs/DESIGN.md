@@ -15,6 +15,8 @@ Folio is a presentation editor for people arranging slides, media and visual sto
 | Mist | `#E9E7E2` | Borders and dividers |
 | Canvas gray | `#F4F5F7` | Workspace around the slide |
 
+The dark theme uses semantic tokens from `apps/editor/src/styles/tokens.css`: app background `#0D1015`, panel `#151920`, raised surface `#1D222A`, border `#2A3039`, primary text `#F0F2F5`, muted text `#9BA3AF` and canvas `#101318`. Use tokens in component styles instead of copying these values into new rules.
+
 Typography uses the existing locally licensed Inter files. Controls use the existing Folio scale and icon sprite; no new display face or icon family is introduced.
 
 ### Layout
@@ -42,6 +44,19 @@ Navigation and panel content are left aligned. The slide is centered in the rema
 - Use the supplied logo lockup and app icon without redrawing them.
 - Keep state changes legible: active rail state, disabled motor actions, focus ring and panel visibility each have a non-color cue.
 - Keep motion short and action-led; honor reduced-motion preferences.
+
+## Current Folio shell decisions
+
+The approved post-WP1 UI decisions are recorded in [`UI-DECISIONS.md`](./UI-DECISIONS.md). They supersede the initial header and panel mockup details above when those differ from the implemented shell.
+
+- The top bar uses the Folio app icon, icon-led File/Edit/View menus, history controls before the document title, and one save status in the bottom status bar.
+- The fourth rail item is named **Kütüphane** and groups Görseller, Videolar, Ses, Tablolar and Belgeler.
+- Filmstrip cards remain labeled static previews until engine data is connected. Its scroll arrows, hover treatment and drag reorder are UI behaviors only; reorder is currently local preview state.
+- Comments are an example panel with sample conversation and local `@Slayt` interactions, not a connected collaboration service.
+- Dark rail states use a quiet illuminated surface on hover and a dark warm surface with a fine warm border for the selected item. Keep the same rounded tile silhouette; do not add a separate left selection bar.
+- Shared Folio Button and ToggleSwitch components define the control shape and interaction. Use the orange accent for selected/action states, with theme-aware surfaces and reduced-motion support.
+
+Static/example data and motor-dependent controls are listed in `UI-DECISIONS.md`; do not present them as connected document or collaboration features.
 
 ## Review against the brief
 
