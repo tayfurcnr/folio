@@ -1,6 +1,7 @@
 import { useCallback, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactElement } from 'react'
 import { LayoutGroup, motion, useReducedMotion } from 'motion/react'
 import { Icon } from './Icon.js'
+import { useLocale } from '../../features/localization/locale'
 
 type CategoryTabsProps = {
   readonly label: string
@@ -12,6 +13,7 @@ type CategoryTabsProps = {
 }
 
 export function CategoryTabs({ label, value, onChange, items, className, panelId }: CategoryTabsProps) {
+  const { t } = useLocale()
   const layoutId = useId()
   const reducedMotion = useReducedMotion()
   const viewport = useRef<HTMLDivElement>(null)
@@ -69,7 +71,7 @@ export function CategoryTabs({ label, value, onChange, items, className, panelId
   }
 
   return <LayoutGroup id={layoutId}><div className={`category-tabs category-tabs-native ${className}`} data-overflow={edges.overflow} data-left={edges.left} data-right={edges.right}>
-    <div className="category-tabs-native__viewport" ref={viewport} role="tablist" aria-label={label} onFocusCapture={(event) => { if (event.target instanceof HTMLButtonElement) reveal(event.target) }}>
+    <div className="category-tabs-native__viewport" ref={viewport} role="tablist" aria-label={t(label)} onFocusCapture={(event) => { if (event.target instanceof HTMLButtonElement) reveal(event.target) }}>
       {items.map((item, index) => <button
         key={item.value}
         ref={(node) => { if (node) tabs.current.set(item.value, node); else tabs.current.delete(item.value) }}
@@ -87,12 +89,12 @@ export function CategoryTabs({ label, value, onChange, items, className, panelId
       >
         {value === item.value && <motion.span className="category-tabs-native__selection" layoutId={`category-tab-selection-${layoutId}`} transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 520, damping: 38 }} aria-hidden="true" />}
         {item.icon && <span className="category-tabs-native__icon" aria-hidden="true">{item.icon}</span>}
-        <span className="category-tabs-native__label">{item.label}</span>
+        <span className="category-tabs-native__label">{t(item.label)}</span>
       </button>)}
     </div>
     {edges.overflow && <>
-      <button className="category-tabs-native__scroll category-tabs-native__scroll--left" type="button" aria-label="Filtreleri sola kaydır" disabled={!edges.left} onClick={() => scroll(-1)}><Icon name="chevron-right" /></button>
-      <button className="category-tabs-native__scroll category-tabs-native__scroll--right" type="button" aria-label="Filtreleri sağa kaydır" disabled={!edges.right} onClick={() => scroll(1)}><Icon name="chevron-right" /></button>
+      <button className="category-tabs-native__scroll category-tabs-native__scroll--left" type="button" aria-label={t('Filtreleri sola kaydır')} disabled={!edges.left} onClick={() => scroll(-1)}><Icon name="chevron-right" /></button>
+      <button className="category-tabs-native__scroll category-tabs-native__scroll--right" type="button" aria-label={t('Filtreleri sağa kaydır')} disabled={!edges.right} onClick={() => scroll(1)}><Icon name="chevron-right" /></button>
     </>}
   </div></LayoutGroup>
 }

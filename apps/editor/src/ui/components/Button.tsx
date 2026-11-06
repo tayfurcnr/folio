@@ -54,6 +54,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(
     ref={ref as ForwardedRef<HTMLButtonElement>}
     type={type}
     title={title}
+    disabled={disabled}
     aria-disabled={disabled || undefined}
     className={classes}
     data-icon-effect={iconEffect}

@@ -12,6 +12,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 deckcraft-engine = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-engine" }
+deckcraft-color = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-color" }
 deckcraft-model = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-model" }
 deckcraft-fonts = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-fonts" }
 deckcraft-render = { git = "https://github.com/storytold/deckcraft.git", rev = "19dceffd0bf3cbc79f9aaaf23fe3e05932fb434d", package = "deckcraft-render" }

@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace @folio/editor",
+    "dev": "node scripts/dev.mjs",
     "build": "npm run build --workspace @folio/editor",
     "typecheck": "npm run typecheck --workspace @folio/editor && npm run typecheck --workspace @folio/engine-adapter",
     "build:wasm": "node scripts/build-wasm.mjs",
@@ -16,6 +16,25 @@
     "test:rust": "cargo test --manifest-path crates/folio-wasm/Cargo.toml",
     "test": "npm run test:rust && npm run test:adapter",
     "build:wasm:regression": "node scripts/build-wasm-regression.mjs",
-    "regression:wp2": "npm run build:wasm:regression && node scripts/run-wp2-regression.mjs"
+    "regression:wp2": "npm run build:wasm:regression && node scripts/run-wp2-regression.mjs",
+    "test:wp35": "npm run build:wasm && node scripts/wp35-browser-regression.mjs",
+    "test:wp36": "npm run build:wasm && node scripts/wp36-move-preview-regression.mjs",
+    "compare:wp36:atlas": "npm run build:wasm && node scripts/wp36-atlas-comparison.mjs",
+    "test:wp37": "npm run build:wasm && node scripts/wp37-transform-regression.mjs",
+    "test:wp38": "npm run build:wasm && node scripts/wp38-ux-regression.mjs",
+    "test:system-clipboard": "npm run build:wasm && node scripts/system-clipboard-regression.mjs",
+    "test:wp38:text-range": "node scripts/wp38-text-range-regression.mjs",
+    "test:wp38:presenter": "npm run build:wasm && node scripts/wp38-presenter-regression.mjs",
+    "test:document-autosave": "npm run build:wasm && node scripts/document-autosave-regression.mjs",
+    "test:two-client-operations": "npm run build:wasm && node scripts/two-client-operation-regression.mjs",
+    "collab-server": "node apps/collab-server/server.mjs",
+    "test:collab-server": "node scripts/collaboration-server-regression.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.22.1"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.2",
+    "playwright": "^1.65.0"
   }
 }

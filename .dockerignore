@@ -1,0 +1,14 @@
+.git
+.folio-data
+.gstack
+node_modules
+**/node_modules
+**/target
+**/dist
+apps/editor/public/wasm
+.env
+.env.*
+!.env.example
+coverage
+playwright-report
+test-results

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { workspaceSections, type WorkspaceSection } from '../../app/sections'
 import { Button } from '../components/Button'
 import { Icon, type IconName } from '../components/Icon'
+import { useLocale } from '../../features/localization/locale'
 
 const MotionButton = motion.create(Button)
 
@@ -11,6 +12,7 @@ type Props = { readonly active: WorkspaceSection | null; readonly onSelect: (sec
 /** Folio adaptation of ATLAS's Rail: same grouped item slots and bottom actions,
  * with WP1's section order and the Folio brand asset. */
 export function NavigationRail({ active, onSelect }: Props) {
+  const { t } = useLocale()
   const [mobileOpen, setMobileOpen] = useState(false)
   const reducedMotion = useReducedMotion()
   const mobileToggleRef = useRef<HTMLElement>(null)
@@ -32,14 +34,14 @@ export function NavigationRail({ active, onSelect }: Props) {
   }
 
   return <aside className="rail-column">
-    <nav className="rail" aria-label="Editör panelleri" data-mobile-open={mobileOpen}>
+    <nav className="rail" aria-label={t('Editör panelleri')} data-mobile-open={mobileOpen}>
       <div className="rail__menu" id="folio-mobile-rail-menu">
         <div className="rail__items">
-          {workspaceSections.map((section) => <FloatingRailItem key={section.id} item={{ id: section.id, label: section.label, icon: section.icon as IconName }} reducedMotion={!!reducedMotion} active={active === section.id} onSelect={() => select(section.id)} />)}
+          {workspaceSections.map((section) => <FloatingRailItem key={section.id} item={{ id: section.id, label: t(section.label), icon: section.icon as IconName }} reducedMotion={!!reducedMotion} active={active === section.id} onSelect={() => select(section.id)} />)}
         </div>
-        <FloatingRailItem item={{ id: 'help', label: 'Yardım', icon: 'circle-question-mark' }} reducedMotion={!!reducedMotion} active={false} onSelect={() => setMobileOpen(false)} bottom />
+        <FloatingRailItem item={{ id: 'help', label: t('Yardım'), icon: 'circle-question-mark' }} reducedMotion={!!reducedMotion} active={false} onSelect={() => setMobileOpen(false)} bottom />
       </div>
-      <Button ref={mobileToggleRef} variant="ghost" size="icon" className="rail__mobile-toggle" aria-label={mobileOpen ? 'Gezinme menüsünü kapat' : 'Gezinme menüsünü aç'} aria-expanded={mobileOpen} aria-controls="folio-mobile-rail-menu" onClick={() => setMobileOpen((open) => !open)} icon={<Icon name="ellipsis" />} />
+      <Button ref={mobileToggleRef} variant="ghost" size="icon" className="rail__mobile-toggle" aria-label={t(mobileOpen ? 'Gezinme menüsünü kapat' : 'Gezinme menüsünü aç')} aria-expanded={mobileOpen} aria-controls="folio-mobile-rail-menu" onClick={() => setMobileOpen((open) => !open)} icon={<Icon name="ellipsis" />} />
     </nav>
   </aside>
 }
